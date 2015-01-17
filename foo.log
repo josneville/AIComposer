@@ -1,0 +1,40 @@
+Exception on /rhythm/17 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 18, in rhythm
+    comp.createRhythm()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithm.py", line 19, in createRhythm
+    for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 54, in __iter__
+    self._execute_pending()
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 129, in _execute_pending
+    result = self._execute(self, pending)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 132, in _execute
+    http_response = self._http_req("POST", self._tx, {'statements': payload})
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 152, in _http_req
+    return self._http_req(method, path, payload, retries-1)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 157, in _http_req
+    self._handle_error(self, None, Connection.OperationalError, message)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 172, in _handle_error
+    owner.errorhandler(self, cursor, error_class, error_value)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 29, in default_error_handler
+    raise errorclass(errorvalue)
+OperationalError: Server returned unexpected response: 404{"results":[],"errors":[{"code":"Neo.ClientError.Transaction.UnknownId","message":"Unrecognized transaction id. Transaction may have timed out and been rolled back."}]}
+Exception on /rhythm/17 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1478, in full_dispatch_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1566, in make_response
+    raise ValueError('View function did not return a response')
+ValueError: View function did not return a response

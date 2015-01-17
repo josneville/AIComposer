@@ -15,7 +15,7 @@ def main():
 def rhythm(note):
   intNote = int(note)
   comp = Composition(intNote)
-  comp.createRhythm()
+  comp.compose(100)
   return comp.convertToString()
 
 

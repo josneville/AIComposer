@@ -52,9 +52,9 @@ def arpeggio():
   print comp.convertToString()
   return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
-#if __name__ == "__main__":
-  #handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
-  #handler.setLevel(logging.INFO)
-  #app.logger.addHandler(handler)
-  #port = int(os.environ.get('PORT', 5000))
-  #app.run(port=port)
+if __name__ == "__main__":
+  handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+  handler.setLevel(logging.INFO)
+  app.logger.addHandler(handler)
+  port = int(os.environ.get('PORT', 5000))
+  app.run()

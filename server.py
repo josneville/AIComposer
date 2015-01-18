@@ -57,4 +57,4 @@ if __name__ == "__main__":
   handler.setLevel(logging.INFO)
   app.logger.addHandler(handler)
   port = int(os.environ.get('PORT', 5000))
-  app.run()
+  app.run(host='0.0.0.0', port=port)

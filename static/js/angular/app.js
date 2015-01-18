@@ -80,7 +80,7 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 				}
 				var freq = mic.getFreq(1);
 				if (freq > 250 && freq < 1600) {
-					if (none < 40) {
+					if (none < 60) {
 						var newNote = matchNote(freq)[0];
 						if (currentNote == newNote) {
 							counter++;
@@ -138,12 +138,8 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 		for (var i = loc; i < $scope.data.tab.length; i++) {
 			for (var j = 0; j < $scope.data.tab[i].length; j++) {
 				currentNote = $scope.data.tab[i][j].note;
-				if (seen == true && note !== currentNote) {
-					return returnLoc;
-				}
 				if (note === currentNote) {
-					seen = true;
-					returnLoc = i;
+					return i;
 				}
 			}
 		}

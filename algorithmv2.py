@@ -112,9 +112,8 @@ class Composition:
   def arpeggio(self):
     if (random.random() > 0.25):
       return
-    print "arpeggio"
-    #current = arpeggio[self.mainChord]
-    current = arpeggio['CMaj']
+    print "arpeggio: " + self.mainChord
+    current = arpeggio[self.mainChord]
     for note in current:
       noteText = correlation[note % 12]
       self.currentMeasurement.append({"keys": noteText, "duration": "16", "note": note})
@@ -140,7 +139,9 @@ class Composition:
         if (note['keys'] == "b/4"):
           text = text + ":" + note['duration'] + " ## "
           continue
-        text = text + ":" + note['duration'] + " " + note['keys'] + "/" + str(int(floor(note['note']/ 12)) + 4) + " "
+        if (note['note'] < 7):
+          note['note']+=12
+        text = text + ":" + note['duration'] + " " + note['keys'] + "/" + str(int(floor(note['note']/ 12)) + 3) + " "
 
       maxCounter += 1
       counter += 1

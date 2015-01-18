@@ -8,7 +8,6 @@ c = {
     { "name" : "CMaj" },
     { "name" : "GMaj" },
     { "name" : "DMaj" },
-    { "name" : "GMin" },
     { "name" : "AMaj" },
     { "name" : "A13"}
   ]
@@ -41,7 +40,6 @@ connection.commit()
 cursor.execute("MATCH (a:Note), (b:Chord {name: 'CMaj'}) WHERE a.name IN ['G', 'A', 'B', 'C', 'D', 'E', 'F'] CREATE (b)-[:CONTAINS]->(a)")
 cursor.execute("MATCH (a:Note), (b:Chord {name: 'GMaj'}) WHERE a.name IN ['G', 'A', 'B', 'C', 'D', 'E', 'F#'] CREATE (b)-[:CONTAINS]->(a)")
 cursor.execute("MATCH (a:Note), (b:Chord {name: 'DMaj'}) WHERE a.name IN ['G', 'A', 'B', 'C#', 'D', 'E', 'F#'] CREATE (b)-[:CONTAINS]->(a)")
-cursor.execute("MATCH (a:Note), (b:Chord {name: 'GMin'}) WHERE a.name IN ['G', 'A', 'B@', 'C', 'D', 'E@', 'F'] CREATE (b)-[:CONTAINS]->(a)")
 cursor.execute("MATCH (a:Note), (b:Chord {name: 'AMaj'}) WHERE a.name IN ['G#', 'A', 'B', 'C#', 'D', 'E', 'F#'] CREATE (b)-[:CONTAINS]->(a)")
 cursor.execute("MATCH (a:Note), (b:Chord {name: 'A13'}) WHERE a.name IN ['G', 'A', 'C', 'E', 'F'] CREATE (b)-[:CONTAINS]->(a)")
 connection.commit()

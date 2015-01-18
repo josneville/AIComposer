@@ -20,18 +20,22 @@ def rhythm(note):
 
 @app.route("/restart", methods=['POST'])
 def restart():
-  if 'note' in request.form:
-    note = request.form['note']
+  if 'note' in request.json:
+    note = request.json['note']
   else:
-    return "Oh Nyo", 400
-  if 'index' in request.form:
-    index = request.form['index']
+    return "Oh Nyo - Note", 400
+  if 'index' in request.json:
+    index = request.json['index']
   else:
-    return "Oh Nyo", 400
+    return "Oh Nyo - Index", 400
 
   comp.deleteAndRestart(int(index), int(note))
   return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
+@app.route("/arpeggio", methods=['POST'])
+def arpeggio():
+  comp.arpeggio()
+  return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
 if __name__ == "__main__":
   handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)

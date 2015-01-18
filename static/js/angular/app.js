@@ -3,10 +3,14 @@ app.controller('main', function($scope, $http, $window) {
 	$scope.tab = null
 	$scope.delete = function(){
 		if ($scope.deletion) {
-			$http.get('/delete/' + $scope.deletion)
-				.success(function(data, status, headers, config){
-					$scope.tab = data.vex
-				})
+			$http({
+				url: "/restart",
+				method: "POST",
+				data: {index: 4, note: 14}
+			})
+			.success(function(data, status, headers, config){
+				$scope.tab = data.vex
+			})
 		}
 	}
 });

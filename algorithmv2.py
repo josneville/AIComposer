@@ -84,7 +84,10 @@ class Composition:
       else:
         change = int(floor(change))
       octave = floor(note / 12)
-      newIndex = (newNotes.index(noteText) + change) % len(newNotes)
+      try:
+        newIndex = (newNotes.index(noteText) + change) % len(newNotes)
+      except:
+        newIndex = (newNotes.index('A') + change) % len(newNotes)
       newNoteText = newNotes[newIndex]
       if (newNotes.index(noteText) < newNotes.index(newNoteText) and change < 0):
         if octave != 0:

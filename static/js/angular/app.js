@@ -71,6 +71,7 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 	var counter = 0;
 	var currentLocation = 0;
 	var none = 0;
+	$scope.waiting = false;
 	var poll = function() {
 		$timeout(function() {
 			if (mic.isInitialized()) {
@@ -81,6 +82,7 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 				var freq = mic.getFreq(1);
 				if (freq > 250 && freq < 1600) {
 					if (none < 60) {
+						$scope.waiting = false;
 						var newNote = matchNote(freq)[0];
 						if (currentNote == newNote) {
 							counter++;
@@ -96,6 +98,7 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 						console.log(currentLocation);
 					}
 					else{
+						$scope.waiting = true;
 						console.log("Waiting");
 						newNote = matchNote(freq)[0]
 						if (currentNote == newNote) {

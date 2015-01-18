@@ -1,12 +1,12 @@
 from __future__ import division
 import neo4j
-import random
 import numpy
+import random
+from py2neo import *
 import os
 from math import floor, ceil
 from rhythms import *
-connection = neo4j.connect(os.environ.get('GRAPHENEDB_URL', "http://localhost:7474"))
-cursor = connection.cursor()
+
 
 class Composition:
   def __init__(self):
@@ -17,6 +17,8 @@ class Composition:
     self.prevHalf = False
     self.max = 8
     self.currentMeasurement = []
+    url = os.environ.get('GRAPHENEDB_URL', 'http://localhost:7474/db/data')
+    self.graph = Graph(url)
     random.seed()
 
   def createRhythm(self):
@@ -24,8 +26,8 @@ class Composition:
     noteText = correlation[note % 12]
     #Use neo4j to find all chords nearby
     possibleChords = []
-    for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
-      possibleChords.append(chord[0])
+    for chord in self.graph.cypher.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name AS name"):
+      possibleChords.append(chord.name)
 
     #Pick one of them randomly and set as current cord
     if self.count == 0:
@@ -75,8 +77,8 @@ class Composition:
 
       #Next note based weight
       newNotes = []
-      for notes in cursor.execute("MATCH (b:Chord {name: '"+self.mainChord+"'})-[:CONTAINS]->a RETURN a.name"):
-        newNotes.append(notes[0])
+      for notes in self.graph.cypher.execute("MATCH (b:Chord {name: '"+self.mainChord+"'})-[:CONTAINS]->a RETURN a.name AS name"):
+        newNotes.append(notes.name)
       change = (numpy.random.normal(0, 1.5, 1))[0]
       if (change < 0):
         change = int(ceil(change))

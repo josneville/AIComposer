@@ -2,6 +2,7 @@ from __future__ import division
 import neo4j
 import random
 import numpy
+import os
 from math import floor, ceil
 from rhythms import *
 connection = neo4j.connect(os.environ.get('GRAPHENEDB_URL', "http://localhost:7474"))

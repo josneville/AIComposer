@@ -1,5 +1,8 @@
 import neo4j
-connection = neo4j.connect("http://localhost:7474")
+import os
+url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
+#url = "http://app33317360.sb02.stations.graphenedb.com:24789/browser/"
+connection = neo4j.connect(url)
 cursor = connection.cursor()
 #chords
 

@@ -61,3 +61,44 @@ Traceback (most recent call last):
   File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 85, in createRhythm
     newIndex = (newNotes.index(noteText) + change) % len(newNotes)
 ValueError: 'D' is not in list
+Exception on /compose/17 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 31, in rhythm
+    comp.compose(intNote)
+  File "/home/swalder10/AIComposer/algorithmv2.py", line 137, in compose
+    self.createRhythm()
+  File "/home/swalder10/AIComposer/algorithmv2.py", line 26, in createRhythm
+    for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 54, in __iter__
+    self._execute_pending()
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 129, in _execute_pending
+    result = self._execute(self, pending)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 132, in _execute
+    http_response = self._http_req("POST", self._tx, {'statements': payload})
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 147, in _http_req
+    self._http.request(method, path, serialized_payload, self._COMMON_HEADERS)
+  File "/usr/lib/python2.7/httplib.py", line 973, in request
+    self._send_request(method, url, body, headers)
+  File "/usr/lib/python2.7/httplib.py", line 1007, in _send_request
+    self.endheaders(body)
+  File "/usr/lib/python2.7/httplib.py", line 969, in endheaders
+    self._send_output(message_body)
+  File "/usr/lib/python2.7/httplib.py", line 829, in _send_output
+    self.send(msg)
+  File "/usr/lib/python2.7/httplib.py", line 791, in send
+    self.connect()
+  File "/usr/lib/python2.7/httplib.py", line 772, in connect
+    self.timeout, self.source_address)
+  File "/usr/lib/python2.7/socket.py", line 571, in create_connection
+    raise err
+error: [Errno 111] Connection refused

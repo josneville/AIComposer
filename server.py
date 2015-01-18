@@ -56,4 +56,5 @@ if __name__ == "__main__":
   handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
   handler.setLevel(logging.INFO)
   app.logger.addHandler(handler)
-  app.run()
+  port = int(os.environ.get('PORT', 5000))
+  app.run(port=port)

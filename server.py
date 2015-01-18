@@ -16,12 +16,21 @@ def main():
 def rhythm(note):
   intNote = int(note)
   comp.compose(intNote)
-  return comp.convertToString()
+  return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
-@app.route("/delete/<location>")
-def delete(location):
-  comp.deleteAndRestart(int(location))
-  return comp.convertToString()
+@app.route("/restart", methods=['POST'])
+def restart():
+  if 'note' in request.form:
+    note = request.form['note']
+  else:
+    return "Oh Nyo", 400
+  if 'index' in request.form:
+    index = request.form['index']
+  else:
+    return "Oh Nyo", 400
+
+  comp.deleteAndRestart(int(index), int(note))
+  return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
 
 if __name__ == "__main__":

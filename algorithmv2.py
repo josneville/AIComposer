@@ -150,9 +150,8 @@ class Composition:
       extraPadding = ":w ## |" * (4 - (self.max%4))
     return text + extraPadding
 
-  def deleteAndRestart(self, location):
-    if (not self.seedNote):
-      print "FAIL"
+  def deleteAndRestart(self, location, note):
+    self.seedNote = note
     index = location - 1
     if (index == -1):
       self.tab = []
@@ -166,4 +165,4 @@ class Composition:
 if __name__ == "__main__":
   comp = Composition(10)
   comp.compose()
-  comp.deleteAndRestart(5)
+  comp.deleteAndRestart(5, 14)

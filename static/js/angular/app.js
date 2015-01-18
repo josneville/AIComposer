@@ -5,7 +5,7 @@ app.controller('main', function($scope, $http, $window) {
 		if ($scope.deletion) {
 			$http.get('/delete/' + $scope.deletion)
 				.success(function(data, status, headers, config){
-					$scope.tab = data
+					$scope.tab = data.vex
 				})
 		}
 	}
@@ -23,9 +23,9 @@ app.directive('vextab', function($compile, $http){
 	          try {
 	            vextab.reset();
 	            artist.reset();
-							$http.get('/compose/13')
+							$http.get('/compose/17')
 								.success(function(data, status, headers, config){
-									scope.tab = data;
+									scope.tab = data.vex;
 									vextab.parse(scope.tab);
 									artist.render(renderer);
 									$compile(canvas)(scope);

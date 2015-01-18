@@ -1,32 +1,4 @@
-Exception on /delete/5 [GET]
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1478, in full_dispatch_request
-    response = self.make_response(rv)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1577, in make_response
-    rv = self.response_class.force_type(rv, request.environ)
-  File "/usr/local/lib/python2.7/dist-packages/werkzeug/wrappers.py", line 827, in force_type
-    response = BaseResponse(*_run_wsgi_app(response, environ))
-  File "/usr/local/lib/python2.7/dist-packages/werkzeug/test.py", line 855, in run_wsgi_app
-    app_iter = app(environ, start_response)
-TypeError: 'int' object is not callable
-Exception on /delete/5 [GET]
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "server.py", line 25, in delete
-    comp.deleteAndRestart(int(location))
-AttributeError: 'int' object has no attribute 'deleteAndRestart'
-Exception on /delete/5 [GET]
+Exception on /delete/3 [GET]
 Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,22 +13,84 @@ Traceback (most recent call last):
   File "server.py", line 23, in delete
     comp.deleteAndRestart(int(location))
   File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 159, in deleteAndRestart
-    self.compose()
-TypeError: compose() takes exactly 2 arguments (1 given)
+    self.compose(self.seedNote)
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+    self.createRhythm()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 25, in createRhythm
+    for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 54, in __iter__
+    self._execute_pending()
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 129, in _execute_pending
+    result = self._execute(self, pending)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 132, in _execute
+    http_response = self._http_req("POST", self._tx, {'statements': payload})
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 152, in _http_req
+    return self._http_req(method, path, payload, retries-1)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 157, in _http_req
+    self._handle_error(self, None, Connection.OperationalError, message)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 172, in _handle_error
+    owner.errorhandler(self, cursor, error_class, error_value)
+  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 29, in default_error_handler
+    raise errorclass(errorvalue)
+OperationalError: Server returned unexpected response: 404{"results":[],"errors":[{"code":"Neo.ClientError.Transaction.UnknownId","message":"Unrecognized transaction id. Transaction may have timed out and been rolled back."}]}
+Exception on /delete/4 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 23, in delete
+    comp.deleteAndRestart(int(location))
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 159, in deleteAndRestart
+    self.compose(self.seedNote)
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+    self.createRhythm()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 84, in createRhythm
+    newIndex = (newNotes.index(noteText) + change) % len(newNotes)
+ValueError: 'C#' is not in list
+Exception on /compose/13 [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 18, in rhythm
+    comp.compose(intNote)
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+    self.createRhythm()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 84, in createRhythm
+    newIndex = (newNotes.index(noteText) + change) % len(newNotes)
+ValueError: 'C#' is not in list
 Exception on /delete/6 [GET]
 Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
     response = self.full_dispatch_request()
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1478, in full_dispatch_request
-    response = self.make_response(rv)
-  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1577, in make_response
-    rv = self.response_class.force_type(rv, request.environ)
-  File "/usr/local/lib/python2.7/dist-packages/werkzeug/wrappers.py", line 827, in force_type
-    response = BaseResponse(*_run_wsgi_app(response, environ))
-  File "/usr/local/lib/python2.7/dist-packages/werkzeug/test.py", line 855, in run_wsgi_app
-    app_iter = app(environ, start_response)
-TypeError: convertToString() takes exactly 1 argument (3 given)
-Exception on /delete/3 [GET]
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 23, in delete
+    comp.deleteAndRestart(int(location))
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 153, in deleteAndRestart
+    if (not self.seedNote):
+AttributeError: Composition instance has no attribute 'seedNote'
+Exception on /delete/10 [GET]
 Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
     response = self.full_dispatch_request()
@@ -70,11 +104,11 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "server.py", line 23, in delete
     comp.deleteAndRestart(int(location))
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 159, in deleteAndRestart
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 164, in deleteAndRestart
     self.compose(self.seedNote)
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 127, in compose
     self.createRhythm()
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 25, in createRhythm
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 26, in createRhythm
     for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
   File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 54, in __iter__
     self._execute_pending()
@@ -91,7 +125,7 @@ Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 29, in default_error_handler
     raise errorclass(errorvalue)
 OperationalError: Server returned unexpected response: 404{"results":[],"errors":[{"code":"Neo.ClientError.Transaction.UnknownId","message":"Unrecognized transaction id. Transaction may have timed out and been rolled back."}]}
-Exception on /delete/3 [GET]
+Exception on /delete/10 [GET]
 Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
     response = self.full_dispatch_request()
@@ -105,24 +139,6 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "server.py", line 23, in delete
     comp.deleteAndRestart(int(location))
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 159, in deleteAndRestart
-    self.compose(self.seedNote)
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
-    self.createRhythm()
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 25, in createRhythm
-    for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 54, in __iter__
-    self._execute_pending()
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/cursor.py", line 129, in _execute_pending
-    result = self._execute(self, pending)
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 132, in _execute
-    http_response = self._http_req("POST", self._tx, {'statements': payload})
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 152, in _http_req
-    return self._http_req(method, path, payload, retries-1)
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 157, in _http_req
-    self._handle_error(self, None, Connection.OperationalError, message)
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 172, in _handle_error
-    owner.errorhandler(self, cursor, error_class, error_value)
-  File "/usr/local/lib/python2.7/dist-packages/neo4j/connection.py", line 29, in default_error_handler
-    raise errorclass(errorvalue)
-OperationalError: Server returned unexpected response: 404{"results":[],"errors":[{"code":"Neo.ClientError.Transaction.UnknownId","message":"Unrecognized transaction id. Transaction may have timed out and been rolled back."}]}
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 154, in deleteAndRestart
+    if (not self.seedNote):
+AttributeError: Composition instance has no attribute 'seedNote'

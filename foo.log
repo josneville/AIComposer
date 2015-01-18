@@ -1,3 +1,24 @@
+Exception on /arpeggio [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "server.py", line 50, in arpeggio
+    comp.customArpeggio()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 132, in customArpeggio
+    self.compose(self.seedNote)
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 137, in compose
+    self.createRhythm()
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 85, in createRhythm
+    newIndex = (newNotes.index(noteText) + change) % len(newNotes)
+ValueError: 'F' is not in list
 Exception on /restart [POST]
 Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1817, in wsgi_app
@@ -10,11 +31,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "server.py", line 32, in restart
+  File "server.py", line 46, in restart
     comp.deleteAndRestart(int(index), int(note))
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 162, in deleteAndRestart
-    self.compose(self.seedNote)
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 173, in deleteAndRestart
+    print self.max
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 137, in compose
     self.createRhythm()
   File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 85, in createRhythm
     newIndex = (newNotes.index(noteText) + change) % len(newNotes)
@@ -31,11 +52,11 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1461, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "server.py", line 32, in restart
+  File "server.py", line 46, in restart
     comp.deleteAndRestart(int(index), int(note))
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 162, in deleteAndRestart
-    self.compose(self.seedNote)
-  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 126, in compose
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 173, in deleteAndRestart
+    print self.max
+  File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 137, in compose
     self.createRhythm()
   File "/home/josneville/Dropbox/College/Projects/composer/algorithmv2.py", line 85, in createRhythm
     newIndex = (newNotes.index(noteText) + change) % len(newNotes)

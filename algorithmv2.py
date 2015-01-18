@@ -120,6 +120,17 @@ class Composition:
     self.tab.append(self.currentMeasurement)
     self.currentMeasurement = []
 
+  def customArpeggio(self):
+    print "arpeggio: " + self.mainChord
+    current = arpeggio[self.mainChord]
+    for note in current:
+      noteText = correlation[note % 12]
+      self.currentMeasurement.append({"keys": noteText, "duration": "16", "note": note})
+    self.tab.append(self.currentMeasurement)
+    self.currentMeasurement = []
+    self.max = int(ceil( (len(self.tab) + 8) / 8 )) * 8
+    self.compose(self.seedNote)
+
   def compose(self, seed):
     self.seedNote = seed
     while (len(self.tab) < self.max):
@@ -129,9 +140,8 @@ class Composition:
     text = ""
     counter = 0
     maxCounter = 0
+    self.tab = self.tab[:self.max]
     for measurement in self.tab:
-      if (maxCounter >= self.max):
-        break
       if (counter % 4 == 0):
         text = text + "\noptions space=20\ntabstave notation=true tablature=false time=4/4\nnotes"
 
@@ -160,7 +170,6 @@ class Composition:
       self.tab = self.tab[:index]
     self.currentMeasurement = []
     self.max = int(ceil( (index + 8) / 8 )) * 8
-    print self.max
     self.compose(self.seedNote)
 
 if __name__ == "__main__":

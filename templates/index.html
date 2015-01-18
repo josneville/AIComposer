@@ -4,9 +4,11 @@
 	<body ng-controller="main">
 		<input type="text" ng-model="deletion" />
 		<button ng-click="delete()">Delete Here</button>
+		<button ng-click="arpeggio()">ARPEGGIO</button>
 		<div style="display: flex; justify-content: center">
 			<vextab tab="tab"/>
 		</div>
+		<script src="/static/js/libraries/canvas-to-blob.min.js"></script>
 		<script src="/static/js/libraries/vextab.js"></script>
 		<script src="/static/js/libraries/angular.min.js"></script>
 		<script src="/static/js/angular/app.js"></script>

@@ -8,14 +8,28 @@ from logging.handlers import RotatingFileHandler
 comp = Composition()
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = './static/images'
+
 @app.route("/")
 def main():
   return render_template("index.html")
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Get the name of the uploaded file
+    print request.files
+    file = request.files['image']
+    # Check if the file is one of the allowed types/extensions
+    if file:
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], "image.png"))
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], "image.png"))
+        return "yes", 200
 
 @app.route("/compose/<note>")
 def rhythm(note):
   intNote = int(note)
   comp.compose(intNote)
+  print comp.convertToString()
   return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
 @app.route("/restart", methods=['POST'])
@@ -34,7 +48,8 @@ def restart():
 
 @app.route("/arpeggio", methods=['POST'])
 def arpeggio():
-  comp.arpeggio()
+  comp.customArpeggio()
+  print comp.convertToString()
   return jsonify(vex=comp.convertToString(), tab=comp.tab)
 
 if __name__ == "__main__":

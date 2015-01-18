@@ -80,7 +80,7 @@ app.controller('main', function($scope, $http, $window, $timeout) {
 				}
 				var freq = mic.getFreq(1);
 				if (freq > 250 && freq < 1600) {
-					if (none < 20) {
+					if (none < 40) {
 						var newNote = matchNote(freq)[0];
 						if (currentNote == newNote) {
 							counter++;

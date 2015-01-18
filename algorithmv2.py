@@ -1,3 +1,4 @@
+from __future__ import division
 import neo4j
 import random
 import numpy
@@ -7,21 +8,19 @@ connection = neo4j.connect("http://localhost:7474")
 cursor = connection.cursor()
 
 class Composition:
-  def __init__(self, seedNote):
-    self.seedNote = seedNote
+  def __init__(self):
     self.tab = []
     self.rhythm = -1
     self.count = 0
     self.mainChord = []
     self.prevHalf = False
-    self.max = 20
-    self.measurements = 0
+    self.max = 8
+    self.currentMeasurement = []
     random.seed()
 
   def createRhythm(self):
     note = self.seedNote
     noteText = correlation[note % 12]
-    newRhythm = []
     #Use neo4j to find all chords nearby
     possibleChords = []
     for chord in cursor.execute("MATCH (a:Note {name: '"+noteText+"'})<-[:CONTAINS]-b RETURN b.name"):
@@ -54,7 +53,7 @@ class Composition:
     for duration in mainRhythm['notes']:
       ## For rests for bars
       noteText = correlation[note % 12]
-      if (duration == 11 or duration == 13 or duration == 15 or duration == "|"):
+      if (duration == 11 or duration == 13 or duration == 15):
         rest = ""
         keys = "b/4"
         if (duration == 11):
@@ -63,23 +62,21 @@ class Composition:
           rest = "q"
         if (duration == 15):
           rest = "h"
-        if (duration == "|"):
-          self.measurements += 1
-          keys = "bar"
-          rest = "|"
-        newRhythm.append({"keys": keys, "duration": rest})
-        if (self.measurements >= self.max):
-          self.seedNote = note
-          self.tab.append(newRhythm)
-          return
+        self.currentMeasurement.append({"keys": keys, "duration": rest})
         continue
 
-      newRhythm.append({"keys": noteText, "duration": duration, "note": note})
+      if (duration == "|"):
+        self.tab.append(self.currentMeasurement)
+        self.currentMeasurement = []
+        continue
+
+      self.currentMeasurement.append({"keys": noteText, "duration": duration, "note": note})
+
       #Next note based weight
       newNotes = []
       for notes in cursor.execute("MATCH (b:Chord {name: '"+self.mainChord+"'})-[:CONTAINS]->a RETURN a.name"):
         newNotes.append(notes[0])
-      change = (numpy.random.normal(0, 2, 1))[0]
+      change = (numpy.random.normal(0, 1.5, 1))[0]
       if (change < 0):
         change = int(ceil(change))
       else:
@@ -91,72 +88,82 @@ class Composition:
         if octave != 0:
           octave = octave - 1
       elif (newNotes.index(noteText) > newNotes.index(newNoteText) and change > 0):
-        if octave != 2:
+        if octave != 1:
           octave = octave + 1
       else:
         octave = octave
       note = int(correlation.index(newNoteText) + octave * 12)
 
     if (self.prevHalf):
-      newRhythm.append({"keys": "bar", "duration": "|"})
-      self.measurements += 1
+      self.tab.append(self.currentMeasurement)
+      self.currentMeasurement = []
       self.prevHalf = False
-      if (self.measurements >= self.max):
-        self.seedNote = note
-        self.tab.append(newRhythm)
-        return
       self.seedNote = note
-      self.tab.append(newRhythm)
+      if (len(self.tab) >= self.max):
+        return
       self.arpeggio()
       return
     elif (mainRhythm['bar'] == "h"):
       self.prevHalf = True
 
     self.seedNote = note
-    self.tab.append(newRhythm)
 
 
   def arpeggio(self):
     if (random.random() > 0.25):
-      return 0
-    newRhythm = []
+      return
     print "arpeggio"
     #current = arpeggio[self.mainChord]
     current = arpeggio['CMaj']
     for note in current:
       noteText = correlation[note % 12]
-      newRhythm.append({"keys": noteText, "duration": "16", "note": note})
-    newRhythm.append({"keys": "bar", "duration": "|"})
-    self.measurements = self.measurements + 1
-    self.tab.append(newRhythm)
-    return 1
+      self.currentMeasurement.append({"keys": noteText, "duration": "16", "note": note})
+    self.tab.append(self.currentMeasurement)
+    self.currentMeasurement = []
 
-  def compose(self):
-      while (self.measurements < self.max):
-        self.createRhythm()
+  def compose(self, seed):
+    self.seedNote = seed
+    while (len(self.tab) < self.max):
+      self.createRhythm()
 
   def convertToString(self):
     text = ""
     counter = 0
-    for rhythm in self.tab:
-      for note in rhythm:
-        if (counter % 5 == 0):
-          text = text + "\noptions space=20\ntabstave notation=true tablature=false time=4/4\nnotes"
-          counter += 1
+    maxCounter = 0
+    for measurement in self.tab:
+      if (maxCounter >= self.max):
+        break
+      if (counter % 4 == 0):
+        text = text + "\noptions space=20\ntabstave notation=true tablature=false time=4/4\nnotes"
+
+      for note in measurement:
         if (note['keys'] == "b/4"):
           text = text + ":" + note['duration'] + " ## "
           continue
-        if (note['keys'] == "bar"):
-          text = text + " | "
-          counter += 1
-          continue
-        text = text + ":" + note['duration'] + " " + note['keys'] + "/" + str(int(floor(note['note']/ 12)) + 3) + " "
+        text = text + ":" + note['duration'] + " " + note['keys'] + "/" + str(int(floor(note['note']/ 12)) + 4) + " "
+
+      maxCounter += 1
+      counter += 1
+      text = text + " | "
     extraPadding = ""
     if (self.max % 4 != 0 and text != ""):
       extraPadding = ":w ## |" * (4 - (self.max%4))
     return text + extraPadding
 
+  def deleteAndRestart(self, location):
+    if (not self.seedNote):
+      print "FAIL"
+    index = location - 1
+    if (index == -1):
+      self.tab = []
+    else:
+      self.tab = self.tab[:index]
+    self.currentMeasurement = []
+    self.max = int(ceil( (index + 8) / 8 )) * 8
+    print self.max
+    self.compose(self.seedNote)
+
 if __name__ == "__main__":
-  comp = Composition(17)
-  comp.createRhythm()
-  print comp.convertToString()
+  comp = Composition(10)
+  comp.compose()
+  comp.deleteAndRestart(5)

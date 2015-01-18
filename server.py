@@ -1,21 +1,26 @@
 from flask import Flask, render_template, request, jsonify
 import sys
 import os
-from algorithm import Composition
+from algorithmv2 import Composition
 import logging
 from logging.handlers import RotatingFileHandler
 
+comp = Composition()
 app = Flask(__name__)
 
 @app.route("/")
 def main():
   return render_template("index.html")
 
-@app.route("/rhythm/<note>")
+@app.route("/compose/<note>")
 def rhythm(note):
   intNote = int(note)
-  comp = Composition(intNote)
-  comp.compose(100)
+  comp.compose(intNote)
+  return comp.convertToString()
+
+@app.route("/delete/<location>")
+def delete(location):
+  comp.deleteAndRestart(int(location))
   return comp.convertToString()
 
 

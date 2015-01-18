@@ -1,6 +1,14 @@
 var app = angular.module('composer', []);
 app.controller('main', function($scope, $http, $window) {
-
+	$scope.tab = null
+	$scope.delete = function(){
+		if ($scope.deletion) {
+			$http.get('/delete/' + $scope.deletion)
+				.success(function(data, status, headers, config){
+					$scope.tab = data
+				})
+		}
+	}
 });
 
 app.directive('vextab', function($compile, $http){
@@ -11,22 +19,32 @@ app.directive('vextab', function($compile, $http){
     return{
         restrict: 'E',
         link: function(scope, element, attrs){
-          try {
-            vextab.reset();
-            artist.reset();
-						$http.get('/rhythm/0')
-							.success(function(data, status, headers, config){
-								console.log(data);
-								vextab.parse(data);
-								artist.render(renderer);
-								$compile(canvas)(scope);
-								element.replaceWith(canvas);
-							})
-          }
-          catch (e) {
-            console.log("Error");
-            console.log(e);
-          }
+					if (scope.tab == null){
+	          try {
+	            vextab.reset();
+	            artist.reset();
+							$http.get('/compose/13')
+								.success(function(data, status, headers, config){
+									scope.tab = data;
+									vextab.parse(scope.tab);
+									artist.render(renderer);
+									$compile(canvas)(scope);
+									element.replaceWith(canvas);
+								})
+	          }
+	          catch (e) {
+	            console.log("Error");
+	            console.log(e);
+	          }
+					}
+					scope.$watch('tab', function(tab){
+						vextab.reset();
+						artist.reset();
+						vextab.parse(tab);
+						artist.render(renderer);
+						$compile(canvas)(scope);
+						element.replaceWith(canvas);
+					});
         }
     }
 });

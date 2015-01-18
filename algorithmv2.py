@@ -1,5 +1,4 @@
 from __future__ import division
-import neo4j
 import numpy
 import random
 from py2neo import *

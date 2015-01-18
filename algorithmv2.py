@@ -1,7 +1,7 @@
 from __future__ import division
 import numpy
 import random
-from py2neo import *
+from py2neo import ServiceRoot
 import os
 from math import floor, ceil
 from rhythms import *
@@ -16,8 +16,8 @@ class Composition:
     self.prevHalf = False
     self.max = 8
     self.currentMeasurement = []
-    url = os.environ.get('GRAPHENEDB_URL', 'http://localhost:7474/db/data')
-    self.graph = Graph(url)
+    url = os.environ.get('GRAPHENEDB_URL', 'http://localhost:7474')
+    self.graph = ServiceRoot(url).graph
     random.seed()
 
   def createRhythm(self):

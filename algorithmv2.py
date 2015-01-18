@@ -4,7 +4,7 @@ import random
 import numpy
 from math import floor, ceil
 from rhythms import *
-connection = neo4j.connect("http://localhost:7474")
+connection = neo4j.connect(os.environ.get('GRAPHENEDB_URL', "http://localhost:7474"))
 cursor = connection.cursor()
 
 class Composition:
